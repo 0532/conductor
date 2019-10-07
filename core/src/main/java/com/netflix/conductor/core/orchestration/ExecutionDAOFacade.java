@@ -23,6 +23,7 @@ import com.netflix.conductor.core.config.Configuration;
 import com.netflix.conductor.core.events.queue.Message;
 import com.netflix.conductor.core.execution.ApplicationException;
 import com.netflix.conductor.core.execution.ApplicationException.Code;
+import com.netflix.conductor.core.utils.ExternalPayloadStorageUtils;
 import com.netflix.conductor.dao.ExecutionDAO;
 import com.netflix.conductor.dao.IndexDAO;
 import com.netflix.conductor.metrics.Monitors;
@@ -50,7 +51,9 @@ public class ExecutionDAOFacade {
     private final ExecutionDAO executionDAO;
     private final IndexDAO indexDAO;
     private final ObjectMapper objectMapper;
+    //private final ExternalPayloadStorageUtils externalPayloadStorageUtils;
     private final Configuration config;
+
     private final ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
 
     @Inject
@@ -58,6 +61,7 @@ public class ExecutionDAOFacade {
         this.executionDAO = executionDAO;
         this.indexDAO = indexDAO;
         this.objectMapper = objectMapper;
+        //this.externalPayloadStorageUtils = externalPayloadStorageUtils;
         this.config = config;
         this.scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(4,
             (runnable, executor) -> {

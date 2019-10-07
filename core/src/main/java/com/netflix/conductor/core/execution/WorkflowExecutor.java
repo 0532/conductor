@@ -1298,12 +1298,14 @@ public class WorkflowExecutor {
                 }
                 if (!workflowSystemTask.isAsync()) {
                     try {
+                        deciderService.populateTaskData(task);
                         workflowSystemTask.start(workflow, task, this);
                     } catch (Exception e) {
                         String errorMsg = String.format("Unable to start system task: %s, {id: %s, name: %s}", task.getTaskType(), task.getTaskId(), task.getTaskDefName());
                         throw new ApplicationException(Code.INTERNAL_ERROR, errorMsg, e);
                     }
                     startedSystemTasks = true;
+                    deciderService.externalizeTaskData(task);
                     executionDAOFacade.updateTask(task);
                 } else {
                     tasksToBeQueued.add(task);
